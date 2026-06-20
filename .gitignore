@@ -6,6 +6,7 @@
 **/.env.local
 **/.env.*.local
 !**/.env.example
+render-env.local.txt
 
 # Build outputs
 **/dist/
