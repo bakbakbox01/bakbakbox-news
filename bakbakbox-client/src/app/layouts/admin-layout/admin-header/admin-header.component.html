@@ -1,0 +1,32 @@
+<mat-toolbar class="admin-header px-3" color="primary">
+  <button
+    mat-icon-button
+    class="d-lg-none"
+    type="button"
+    aria-label="Toggle navigation"
+    (click)="menuToggle.emit()"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span class="admin-header__title flex-grow-1 ms-2">Admin Panel</span>
+
+  <div class="d-flex align-items-center gap-2">
+    @for (action of actions(); track action.path) {
+      <a mat-button [routerLink]="action.path" target="_blank" rel="noopener">
+        @if (action.icon) {
+          <mat-icon>{{ action.icon }}</mat-icon>
+        }
+        <span class="d-none d-sm-inline">{{ action.label }}</span>
+      </a>
+    }
+
+    <span class="admin-header__user d-none d-md-inline text-white-50 small">
+      {{ adminName() }}
+    </span>
+
+    <button mat-icon-button type="button" aria-label="Logout" (click)="onLogout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>

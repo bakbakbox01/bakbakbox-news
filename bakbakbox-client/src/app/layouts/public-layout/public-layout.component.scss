@@ -1,0 +1,13 @@
+.public-layout {
+  overflow-x: clip;
+
+  &__content {
+    background-color: #f1f5f9;
+    overflow-x: clip;
+  }
+
+  &__container {
+    width: 100%;
+    max-width: 100%;
+  }
+}

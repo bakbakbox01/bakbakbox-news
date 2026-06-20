@@ -1,0 +1,21 @@
+<div class="admin-sidebar h-100 d-flex flex-column">
+  <div class="admin-sidebar__brand px-4 py-4 border-bottom">
+    <span class="fw-bold">{{ brandName() }}</span>
+  </div>
+
+  <mat-nav-list class="admin-sidebar__nav flex-grow-1 pt-2">
+    @for (item of navItems(); track item.path) {
+      <a
+        mat-list-item
+        [routerLink]="item.path"
+        routerLinkActive="admin-sidebar__link--active"
+        (click)="navClicked.emit()"
+      >
+        @if (item.icon) {
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        }
+        <span matListItemTitle>{{ item.label }}</span>
+      </a>
+    }
+  </mat-nav-list>
+</div>

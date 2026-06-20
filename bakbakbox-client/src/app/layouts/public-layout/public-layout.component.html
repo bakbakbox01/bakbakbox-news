@@ -1,0 +1,11 @@
+<div class="public-layout d-flex flex-column min-vh-100">
+  <app-public-header [navItems]="navItems" />
+
+  <main class="public-layout__content flex-grow-1">
+    <div class="container py-3 py-md-4 public-layout__container">
+      <router-outlet />
+    </div>
+  </main>
+
+  <app-public-footer [footerLinks]="footerLinks" />
+</div>

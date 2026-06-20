@@ -1,0 +1,83 @@
+<div class="public-page" @fadeInUp>
+  <app-page-hero
+    variant="about"
+    title="About Bak Bak Box News"
+    subtitle="Modern digital journalism — fast, factual, and built for readers who never stop talking."
+    icon="📰"
+    badge="OUR STORY"
+  />
+
+  <div class="public-page__body about-page">
+    <div class="row g-4 g-xl-5">
+      <div class="col-lg-8">
+        <section class="about-section" @fadeInUp>
+          <div class="about-intro card border-0 shadow-sm">
+            <div class="card-body p-4 p-md-5">
+              <app-brand-logo size="md" variant="dark" [link]="false" [showTagline]="true" />
+              <p class="lead mt-4 mb-3">
+                Bak Bak Box News is a modern digital news platform delivering timely, accurate, and engaging
+                stories from around the world.
+              </p>
+              <p class="text-muted mb-0">
+                Our mission is to keep readers informed with breaking news, in-depth analysis, and trending
+                stories across politics, technology, sports, entertainment, and more. We believe in
+                journalism that is fast, factual, and accessible to everyone.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="about-section mt-4 mt-md-5">
+          <h2 class="about-section__title">What We Cover</h2>
+          <ul class="about-list" @listStagger>
+            @for (item of coverage; track item) {
+              <li class="about-list__item">{{ item }}</li>
+            }
+          </ul>
+        </section>
+
+        <section class="about-section mt-4 mt-md-5">
+          <h2 class="about-section__title">Our Values</h2>
+          <p class="text-muted">
+            Accuracy, integrity, and speed guide everything we publish. Our editorial team works around
+            the clock to verify facts before reporting and to update stories as new information emerges.
+          </p>
+        </section>
+      </div>
+
+      <div class="col-lg-4">
+        <aside class="about-sidebar" @fadeInUp>
+          <div class="about-facts card border-0 shadow-sm">
+            <div class="card-body p-4">
+              <h2 class="h6 fw-bold mb-3">Quick Facts</h2>
+              <ul class="about-facts__list">
+                <li><span>📰</span> Updated daily with fresh content</li>
+                <li><span>⚡</span> Real-time breaking news alerts</li>
+                <li><span>🌍</span> Multiple categories covered</li>
+                <li><span>📱</span> Fully responsive on all devices</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="about-cta card border-0 mt-4">
+            <div class="card-body p-4 text-center text-white">
+              <h3 class="h6 fw-bold mb-2">Stay in the loop</h3>
+              <p class="small mb-3 opacity-75">Explore trending stories and breaking news now.</p>
+              <a routerLink="/trending" class="btn btn-light btn-sm fw-semibold">View Trending</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <section class="values-grid mt-5" @listStagger>
+      @for (val of values; track val.title) {
+        <div class="value-card">
+          <span class="value-card__icon">{{ val.icon }}</span>
+          <h3 class="value-card__title">{{ val.title }}</h3>
+          <p class="value-card__desc">{{ val.desc }}</p>
+        </div>
+      }
+    </section>
+  </div>
+</div>

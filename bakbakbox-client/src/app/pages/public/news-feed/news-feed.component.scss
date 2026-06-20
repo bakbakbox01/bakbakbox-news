@@ -1,0 +1,11 @@
+.public-page__body {
+  animation: inherit;
+}
+
+.feed-spotlight {
+  margin-bottom: 1.5rem;
+
+  @media (min-width: 992px) {
+    margin-bottom: 2rem;
+  }
+}

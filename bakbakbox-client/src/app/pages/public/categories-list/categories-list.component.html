@@ -1,0 +1,39 @@
+<div class="public-page" @fadeInUp>
+  <app-page-hero
+    variant="categories"
+    title="Categories"
+    subtitle="Explore stories by topic — politics, sports, tech, entertainment, and more."
+    icon="🗂️"
+    badge="BROWSE TOPICS"
+    [meta]="categories().length ? categories().length + ' topics available' : ''"
+  />
+
+  <div class="public-page__body">
+    @if (loading()) {
+      <app-loading-spinner message="Loading categories..." />
+    } @else if (!categories().length) {
+      <app-empty-state
+        icon="🗂️"
+        title="No categories yet"
+        message="Categories will appear here once they are added by the editorial team."
+      />
+    } @else {
+      <div class="categories-grid" @listStagger>
+        @for (cat of categories(); track cat._id; let i = $index) {
+          <a
+            [routerLink]="['/category', cat.slug]"
+            class="category-card"
+            [style.--accent]="categoryAccent(i)"
+          >
+            <span class="category-card__icon">{{ categoryIcon(i) }}</span>
+            <h2 class="category-card__name">{{ cat.name }}</h2>
+            @if (cat.description) {
+              <p class="category-card__desc text-clamp-2">{{ cat.description }}</p>
+            }
+            <span class="category-card__cta">Explore →</span>
+          </a>
+        }
+      </div>
+    }
+  </div>
+</div>

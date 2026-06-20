@@ -1,0 +1,86 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$bakbakbox-primary: mat.m2-define-palette(mat.$m2-indigo-palette);
+$bakbakbox-accent: mat.m2-define-palette(mat.$m2-pink-palette, A200, A100, A400);
+$bakbakbox-warn: mat.m2-define-palette(mat.$m2-red-palette);
+
+$bakbakbox-theme: mat.m2-define-light-theme(
+  (
+    color: (
+      primary: $bakbakbox-primary,
+      accent: $bakbakbox-accent,
+      warn: $bakbakbox-warn,
+    ),
+    typography: mat.m2-define-typography-config(),
+    density: 0,
+  )
+);
+
+@include mat.all-component-themes($bakbakbox-theme);
+
+html {
+  height: 100%;
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  overflow-x: clip;
+  min-width: 320px;
+  font-family: Roboto, 'Noto Sans Devanagari', 'Helvetica Neue', sans-serif;
+}
+
+@mixin text-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+  line-clamp: $lines;
+  overflow: hidden;
+  line-height: 1.65;
+  padding-block: 0.2em;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.text-clamp-2 {
+  @include text-clamp(2);
+}
+
+.text-clamp-3 {
+  @include text-clamp(3);
+}
+
+img,
+video,
+svg {
+  max-width: 100%;
+}
+
+img:not([class*='__image']) {
+  height: auto;
+}
+
+.container,
+.container-fluid {
+  padding-left: max(0.75rem, env(safe-area-inset-left));
+  padding-right: max(0.75rem, env(safe-area-inset-right));
+}
+
+.snackbar-success {
+  --mdc-snackbar-container-color: #2e7d32;
+  --mdc-snackbar-supporting-text-color: #fff;
+}
+
+.snackbar-error {
+  --mdc-snackbar-container-color: #c62828;
+  --mdc-snackbar-supporting-text-color: #fff;
+}
+
+.snackbar-info {
+  --mdc-snackbar-container-color: #1565c0;
+  --mdc-snackbar-supporting-text-color: #fff;
+}

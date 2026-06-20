@@ -1,0 +1,56 @@
+@if (loading()) {
+  <div class="public-page">
+    <app-loading-spinner message="Loading category..." />
+  </div>
+} @else if (category(); as cat) {
+  <div class="public-page" @fadeInUp>
+    <app-page-hero
+      variant="category"
+      [title]="cat.name"
+      [subtitle]="cat.description || 'Latest stories and updates in this category.'"
+      icon="📂"
+      [meta]="total() ? total() + ' articles' : ''"
+    />
+
+    <div class="public-page__body">
+      @if (!news().length) {
+        <app-empty-state
+          icon="📂"
+          title="No articles yet"
+          message="We're preparing content for this category. Check back soon!"
+        />
+      } @else {
+        @if (spotlight(); as lead) {
+          <div class="feed-spotlight" @fadeInUp>
+            <app-news-card [article]="lead" [featured]="true" />
+          </div>
+        }
+
+        @if (gridNews().length) {
+          <div class="row g-4" @listStagger>
+            @for (item of gridNews(); track item._id) {
+              <div class="col-md-6 col-lg-4">
+                <app-news-card [article]="item" />
+              </div>
+            }
+          </div>
+        }
+
+        <app-pagination
+          [total]="total()"
+          [page]="page()"
+          [limit]="limit"
+          (pageChange)="onPageChange($event)"
+        />
+      }
+    </div>
+  </div>
+} @else {
+  <div class="public-page" @fadeInUp>
+    <app-empty-state
+      icon="🔍"
+      title="Category not found"
+      message="The category you're looking for doesn't exist or may have been removed."
+    />
+  </div>
+}

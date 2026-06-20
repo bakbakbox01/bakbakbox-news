@@ -1,0 +1,26 @@
+<footer class="public-footer bg-dark text-light mt-auto">
+  <div class="container py-5">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <h5 class="fw-bold">{{ brandName() }}</h5>
+        <p class="text-secondary mb-0">
+          Your trusted source for breaking news and in-depth coverage.
+        </p>
+      </div>
+      <div class="col-md-6">
+        <h6 class="text-uppercase text-secondary mb-3">Quick Links</h6>
+        <ul class="list-unstyled d-flex flex-wrap gap-3 mb-0">
+          @for (link of footerLinks(); track link.path) {
+            <li>
+              <a class="footer-link" [routerLink]="link.path">{{ link.label }}</a>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+    <hr class="border-secondary my-4" />
+    <p class="text-secondary small mb-0">
+      &copy; {{ year }} {{ brandName() }}. All rights reserved.
+    </p>
+  </div>
+</footer>

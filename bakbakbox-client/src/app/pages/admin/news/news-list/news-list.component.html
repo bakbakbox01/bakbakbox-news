@@ -1,0 +1,97 @@
+<app-page-header title="Manage News" subtitle="View, edit, and delete news articles">
+  <a mat-flat-button color="primary" routerLink="/admin/news/create">
+    <mat-icon>add</mat-icon>
+    Add News
+  </a>
+</app-page-header>
+
+<div class="filters card border-0 shadow-sm mb-4">
+  <div class="card-body row g-3 align-items-end">
+    <div class="col-md-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Search by title</mat-label>
+        <input matInput [formControl]="searchControl" />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Status</mat-label>
+        <mat-select [formControl]="statusControl" (selectionChange)="onStatusChange()">
+          <mat-option value="">All</mat-option>
+          <mat-option value="draft">Draft</mat-option>
+          <mat-option value="published">Published</mat-option>
+          <mat-option value="archived">Archived</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+
+@if (loading()) {
+  <app-loading-spinner message="Loading news..." />
+} @else {
+  <div class="table-card card border-0 shadow-sm">
+    <div class="table-responsive">
+      <table mat-table [dataSource]="news()" class="w-100">
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef>Title</th>
+          <td mat-cell *matCellDef="let row">
+            <div class="fw-medium">{{ row.title }}</div>
+            <small class="text-muted">{{ row.slug }}</small>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef>Category</th>
+          <td mat-cell *matCellDef="let row">{{ categoryName(row) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-chip>{{ row.status }}</mat-chip>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="views">
+          <th mat-header-cell *matHeaderCellDef>Views</th>
+          <td mat-cell *matCellDef="let row">{{ row.views }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="isBreaking">
+          <th mat-header-cell *matHeaderCellDef>Breaking</th>
+          <td mat-cell *matCellDef="let row">
+            @if (row.isBreaking) {
+              <mat-icon color="warn">bolt</mat-icon>
+            }
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-icon-button (click)="editNews(row._id)" aria-label="Edit">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteNews(row)" aria-label="Delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+
+    <mat-paginator
+      [length]="total()"
+      [pageIndex]="pageIndex()"
+      [pageSize]="pageSize()"
+      [pageSizeOptions]="[5, 10, 25, 50]"
+      (page)="onPageChange($event)"
+      showFirstLastButtons
+    />
+  </div>
+}

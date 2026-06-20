@@ -1,0 +1,61 @@
+<app-page-header
+  title="Image Upload"
+  subtitle="Upload images to Cloudinary (JPG, PNG, WEBP — max 5MB)"
+/>
+
+@if (uploading()) {
+  <app-loading-spinner [overlay]="true" message="Uploading..." />
+}
+
+<div class="row g-4">
+  <div class="col-lg-5">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <label class="form-label fw-medium">Select Image</label>
+        <input
+          type="file"
+          class="form-control mb-3"
+          accept="image/jpeg,image/png,image/webp"
+          (change)="onFileSelected($event)"
+        />
+
+        @if (previewUrl()) {
+          <div class="preview mb-3">
+            <img [src]="previewUrl()!" alt="Preview" />
+          </div>
+        }
+
+        <button mat-flat-button color="primary" (click)="upload()" [disabled]="uploading()">
+          <mat-icon>cloud_upload</mat-icon>
+          Upload to Cloudinary
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-7">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <h2 class="h6 mb-3">Uploaded Images</h2>
+        @if (!uploadedImages().length) {
+          <p class="text-muted mb-0">No images uploaded in this session yet.</p>
+        } @else {
+          <div class="uploaded-list">
+            @for (img of uploadedImages(); track img.publicId) {
+              <div class="uploaded-item">
+                <img [src]="img.url" [alt]="img.publicId" />
+                <div class="uploaded-item__info">
+                  <code class="small d-block text-truncate">{{ img.url }}</code>
+                  <button mat-stroked-button type="button" (click)="copyUrl(img.url)">
+                    <mat-icon>content_copy</mat-icon>
+                    Copy URL
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

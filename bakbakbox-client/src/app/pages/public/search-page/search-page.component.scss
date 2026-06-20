@@ -1,0 +1,52 @@
+.search-hero-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+
+  &__input {
+    flex: 1 1 200px;
+    min-width: 0;
+    padding: 0.75rem 1.25rem;
+    border: none;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+
+    &:focus {
+      outline: 2px solid rgba(255, 255, 255, 0.5);
+      outline-offset: 2px;
+    }
+  }
+
+  &__btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 999px;
+    font-weight: 700;
+    background: #fff;
+    color: #0f172a;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+@media (max-width: 575.98px) {
+  .search-hero-form {
+    flex-direction: column;
+
+    &__input,
+    &__btn {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,94 @@
+@if (loading()) {
+  <app-loading-spinner message="Loading article..." />
+} @else {
+  <app-page-header
+    [title]="isEditMode ? 'Edit News' : 'Add News'"
+    [subtitle]="isEditMode ? 'Update news article details' : 'Create a new news article'"
+  />
+
+  @if (submitting()) {
+    <app-loading-spinner [overlay]="true" message="Saving..." />
+  }
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+      <div class="row g-3">
+        <div class="col-12">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" />
+          </mat-form-field>
+        </div>
+
+        <div class="col-12">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Short Description</mat-label>
+            <textarea matInput rows="2" formControlName="shortDescription"></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Content</mat-label>
+            <textarea matInput rows="8" formControlName="content"></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="category">
+              @for (cat of categories(); track cat._id) {
+                <mat-option [value]="cat._id">{{ cat.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+              <mat-option value="draft">Draft</mat-option>
+              <mat-option value="published">Published</mat-option>
+              <mat-option value="archived">Archived</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Tags (comma separated)</mat-label>
+            <input matInput formControlName="tags" placeholder="politics, sports, tech" />
+          </mat-form-field>
+        </div>
+
+        <div class="col-12">
+          <mat-checkbox formControlName="isBreaking">Mark as breaking news</mat-checkbox>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label fw-medium">Featured Image</label>
+          <div class="image-upload">
+            <input type="file" accept="image/jpeg,image/png,image/webp" (change)="onFileSelected($event)" />
+            @if (previewUrl()) {
+              <div class="image-preview mt-3">
+                <img [src]="previewUrl()!" alt="Preview" />
+                <button mat-stroked-button type="button" color="warn" (click)="clearImage()">
+                  Remove Image
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer bg-white form-footer d-flex flex-column flex-sm-row gap-2 p-3 p-md-4">
+      <a mat-button routerLink="/admin/news">Cancel</a>
+      <button mat-flat-button color="primary" type="submit" [disabled]="submitting()">
+        {{ isEditMode ? 'Update News' : 'Create News' }}
+      </button>
+    </div>
+  </form>
+}

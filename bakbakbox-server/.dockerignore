@@ -1,0 +1,16 @@
+node_modules
+npm-debug.log
+.env
+.env.local
+.env.*.local
+logs/*.log
+uploads/temp/*
+!uploads/temp/.gitkeep
+.git
+.gitignore
+README.md
+Dockerfile
+.dockerignore
+coverage
+.vscode
+.idea

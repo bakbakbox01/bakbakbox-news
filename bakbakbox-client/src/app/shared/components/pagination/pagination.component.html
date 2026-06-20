@@ -1,0 +1,37 @@
+@if (totalPages > 1) {
+  <nav aria-label="Pagination" class="mt-4">
+    <ul class="pagination justify-content-center flex-wrap mb-0">
+      <li class="page-item" [class.disabled]="page() === 1">
+        <button class="page-link" type="button" (click)="goTo(page() - 1)">Previous</button>
+      </li>
+
+      @if (pages[0] > 1) {
+        <li class="page-item">
+          <button class="page-link" type="button" (click)="goTo(1)">1</button>
+        </li>
+        @if (pages[0] > 2) {
+          <li class="page-item disabled"><span class="page-link">…</span></li>
+        }
+      }
+
+      @for (p of pages; track p) {
+        <li class="page-item" [class.active]="p === page()">
+          <button class="page-link" type="button" (click)="goTo(p)">{{ p }}</button>
+        </li>
+      }
+
+      @if (pages[pages.length - 1] < totalPages) {
+        @if (pages[pages.length - 1] < totalPages - 1) {
+          <li class="page-item disabled"><span class="page-link">…</span></li>
+        }
+        <li class="page-item">
+          <button class="page-link" type="button" (click)="goTo(totalPages)">{{ totalPages }}</button>
+        </li>
+      }
+
+      <li class="page-item" [class.disabled]="page() === totalPages">
+        <button class="page-link" type="button" (click)="goTo(page() + 1)">Next</button>
+      </li>
+    </ul>
+  </nav>
+}

@@ -1,0 +1,227 @@
+@keyframes header-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.public-header {
+  z-index: 1030;
+  overflow: visible;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.95);
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+
+  &__accent {
+    height: 3px;
+    background: linear-gradient(90deg, #2563eb, #7c3aed, #db2777, #f59e0b, #2563eb);
+    background-size: 200% 100%;
+    animation: header-gradient 8s linear infinite;
+  }
+
+  &__nav {
+    min-height: 4.5rem;
+    align-items: center;
+    padding-block: 0.85rem;
+    gap: 1rem;
+  }
+
+  &__brand {
+    flex-shrink: 0;
+    margin-right: 0.25rem;
+  }
+
+  &__toggler {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.65rem;
+    padding: 0.45rem 0.6rem;
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+  }
+
+  &__collapse {
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+    padding-block: 0.5rem;
+
+    @media (min-width: 992px) {
+      padding-block: 0;
+    }
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1rem !important;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: #475569;
+    white-space: nowrap;
+    transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+      color: #2563eb;
+      background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%);
+      transform: translateY(-1px);
+    }
+
+    &.active {
+      color: #fff;
+      background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+
+      .public-header__link-icon {
+        filter: none;
+      }
+    }
+  }
+
+  &__link-icon {
+    font-size: 0.95rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  &__link-label {
+    line-height: 1.35;
+    padding-block: 0.05em;
+  }
+
+  &__search {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    min-width: 0;
+    margin-top: 0.25rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus-within {
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      background: #fff;
+    }
+
+    @media (min-width: 992px) {
+      width: auto;
+      min-width: 240px;
+      max-width: 300px;
+      margin-top: 0;
+      flex-shrink: 0;
+    }
+  }
+
+  &__search-icon {
+    display: flex;
+    align-items: center;
+    padding-left: 0.95rem;
+    font-size: 0.85rem;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  &__search-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    padding: 0.55rem 0.65rem;
+    font-size: 0.875rem;
+    box-shadow: none !important;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      color: #94a3b8;
+    }
+  }
+
+  &__search-btn {
+    flex-shrink: 0;
+    border: none;
+    border-radius: 0;
+    padding: 0.55rem 1.1rem;
+    font-weight: 700;
+    font-size: 0.8125rem;
+    color: #fff;
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    transition: filter 0.2s;
+
+    &:hover {
+      color: #fff;
+      filter: brightness(1.08);
+    }
+  }
+}
+
+:host ::ng-deep app-brand-logo.public-header__brand {
+  overflow: visible;
+  display: flex;
+
+  .brand-logo {
+    overflow: visible;
+
+    &:hover {
+      transform: none;
+    }
+  }
+
+  .brand-logo__mark {
+    overflow: visible;
+    padding: 3px;
+    margin: -3px;
+  }
+
+  .brand-logo__box {
+    filter: drop-shadow(0 3px 10px rgba(37, 99, 235, 0.28));
+  }
+}
+
+@media (max-width: 991.98px) {
+  .public-header__collapse {
+    padding-bottom: 0.75rem;
+  }
+
+  .public-header__link {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 575.98px) {
+  :host ::ng-deep .brand-logo--md .brand-logo__mark {
+    width: 36px;
+    height: 36px;
+  }
+
+  :host ::ng-deep .brand-logo--md .brand-logo__name {
+    font-size: 1rem;
+  }
+
+  .public-header__nav {
+    min-height: 4rem;
+    padding-block: 0.7rem;
+  }
+}

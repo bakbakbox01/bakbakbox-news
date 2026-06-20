@@ -1,0 +1,31 @@
+<mat-sidenav-container class="admin-layout h-100">
+  <mat-sidenav
+    class="admin-layout__sidenav d-lg-none"
+    [mode]="'over'"
+    [opened]="sidenavOpen()"
+    (closedStart)="closeSidenav()"
+  >
+    <app-admin-sidebar
+      [navItems]="navItems"
+      (navClicked)="closeSidenav()"
+    />
+  </mat-sidenav>
+
+  <mat-sidenav-content class="admin-layout__content">
+    <app-admin-header
+      [actions]="headerActions"
+      (menuToggle)="toggleSidenav()"
+    />
+
+    <div class="admin-layout__body">
+      <aside class="admin-layout__sidebar d-none d-lg-block">
+        <app-admin-sidebar [navItems]="navItems" />
+      </aside>
+
+      <main class="admin-layout__main">
+        <app-breadcrumb />
+        <router-outlet />
+      </main>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,41 @@
+<div
+  class="loading-spinner"
+  [class.loading-spinner--overlay]="overlay()"
+  [style.--spinner-size.px]="diameter()"
+  role="status"
+  aria-live="polite"
+  aria-busy="true"
+>
+  <div class="loading-spinner__stage" aria-hidden="true">
+    <div class="loading-spinner__glow"></div>
+    <div class="loading-spinner__orbit">
+      <span class="loading-spinner__ring loading-spinner__ring--outer"></span>
+      <span class="loading-spinner__ring loading-spinner__ring--inner"></span>
+      <span class="loading-spinner__satellite">
+        <span class="loading-spinner__satellite-dot"></span>
+      </span>
+    </div>
+    <div class="loading-spinner__core">
+      <svg viewBox="0 0 24 24" fill="none" class="loading-spinner__icon">
+        <path
+          d="M6 4h12a1 1 0 0 1 1 1v14l-3-2-3 2-3-2-3 2-3-2V5a1 1 0 0 1 1-1Z"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linejoin="round"
+        />
+        <path d="M9 8h6M9 11.5h4.5M9 15h5.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+      </svg>
+    </div>
+  </div>
+
+  @if (message()) {
+    <p class="loading-spinner__message">
+      <span class="loading-spinner__message-text">{{ message() }}</span>
+      <span class="loading-spinner__dots" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </p>
+  }
+
+  <span class="loading-spinner__sr-only">{{ message() || 'Loading' }}</span>
+</div>

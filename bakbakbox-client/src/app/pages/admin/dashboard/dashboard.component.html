@@ -1,0 +1,86 @@
+@if (loading()) {
+  <app-loading-spinner message="Loading dashboard..." />
+} @else if (overview(); as data) {
+  <app-page-header
+    title="Dashboard"
+    subtitle="Overview of your news platform"
+  />
+
+  <div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-3">
+      <app-stat-card label="Total News" [value]="data.statistics.totalNews" icon="article" color="#3f51b5" />
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <app-stat-card label="Total Categories" [value]="data.statistics.totalCategories" icon="category" color="#009688" />
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <app-stat-card label="Total Views" [value]="data.statistics.totalViews" icon="visibility" color="#ff5722" />
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <app-stat-card label="Breaking News" [value]="data.statistics.breakingNewsCount" icon="bolt" color="#e91e63" />
+    </div>
+    <div class="col-sm-6 col-xl-4">
+      <app-stat-card label="Published" [value]="data.statistics.publishedCount" icon="publish" color="#4caf50" />
+    </div>
+    <div class="col-sm-6 col-xl-4">
+      <app-stat-card label="Drafts" [value]="data.statistics.draftCount" icon="edit_note" color="#ff9800" />
+    </div>
+    <div class="col-sm-6 col-xl-4">
+      <app-stat-card label="Archived" [value]="data.statistics.archivedCount" icon="archive" color="#607d8b" />
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <mat-card>
+        <mat-card-header class="d-flex flex-wrap justify-content-between align-items-center gap-2 pb-0">
+          <mat-card-title>Recent News</mat-card-title>
+          <a mat-button routerLink="/admin/news">View all</a>
+        </mat-card-header>
+        <mat-card-content class="pt-3">
+          <div class="table-responsive">
+            <table mat-table [dataSource]="data.recentNews" class="w-100">
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef>Title</th>
+              <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+            </ng-container>
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let row">
+                <mat-chip>{{ row.status }}</mat-chip>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="views">
+              <th mat-header-cell *matHeaderCellDef>Views</th>
+              <td mat-cell *matCellDef="let row">{{ row.views }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['title', 'status', 'views']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['title', 'status', 'views']"></tr>
+          </table>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-lg-5">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Latest Activity</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="pt-3">
+          <div class="activity-list">
+            @for (item of data.latestActivity; track item.entityId + item.timestamp) {
+              <div class="activity-item">
+                <div class="activity-item__type">{{ activityLabel(item.type) }}</div>
+                <div class="activity-item__title">{{ item.title }}</div>
+                <div class="activity-item__time text-muted small">
+                  {{ item.timestamp | date: 'medium' }}
+                </div>
+              </div>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+}

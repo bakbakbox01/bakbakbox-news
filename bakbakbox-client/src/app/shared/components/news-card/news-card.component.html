@@ -1,0 +1,99 @@
+<article
+  class="news-card card border-0 h-100"
+  [class.news-card--featured]="featured()"
+  [class.news-card--horizontal]="horizontal()"
+  [class.news-card--breaking]="article().isBreaking"
+  [style.--news-accent]="categoryAccent(article())"
+>
+  <a [routerLink]="['/news', article().slug]" class="news-card__link text-decoration-none">
+    <div class="news-card__media">
+      <img
+        class="news-card__image"
+        [src]="displayImageUrl(article())"
+        [srcset]="displayImageSrcSet(article())"
+        sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 33vw"
+        [alt]="article().title"
+        loading="lazy"
+        decoding="async"
+        (error)="onImageError()"
+      />
+      <div class="news-card__media-overlay" aria-hidden="true"></div>
+      @if (article().isBreaking) {
+        <span class="news-card__badge">
+          <span class="news-card__badge-dot"></span>
+          Breaking
+        </span>
+      }
+      @if (rank(); as r) {
+        <span class="news-card__rank">#{{ r }}</span>
+      }
+    </div>
+
+    <div class="card-body news-card__body">
+      @if (categoryName(article()); as cat) {
+        <span class="news-card__category">{{ cat }}</span>
+      }
+
+      <h3
+        class="news-card__title text-clamp-2"
+        [class.text-clamp-3]="featured()"
+      >
+        {{ article().title }}
+      </h3>
+
+      @if (displayDescription(article()); as desc) {
+        <p class="news-card__desc text-clamp-2">{{ desc }}</p>
+      }
+
+      <div class="news-card__footer">
+        <div class="news-card__meta">
+          <span
+            class="news-card__date"
+            [class.news-card__date--fresh]="isFreshDate(article())"
+          >
+            <span class="news-card__date-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.75"/>
+                <path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="news-card__date-content">
+              <span class="news-card__date-main">{{ article().publishedAt | date: 'MMM d' }}</span>
+              <span class="news-card__date-year">{{ article().publishedAt | date: 'y' }}</span>
+            </span>
+            @if (isFreshDate(article())) {
+              <span class="news-card__date-badge" aria-hidden="true">New</span>
+            }
+          </span>
+
+          <span
+            class="news-card__views"
+            [class.news-card__views--hot]="isPopularViews(article().views)"
+          >
+            <span class="news-card__views-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                />
+                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.75"/>
+              </svg>
+            </span>
+            <span class="news-card__views-count">{{ article().views | number }}</span>
+            <span class="news-card__views-label">views</span>
+            @if (isPopularViews(article().views)) {
+              <span class="news-card__views-hot" aria-hidden="true">Hot</span>
+            }
+          </span>
+        </div>
+        <span class="news-card__read" aria-hidden="true">
+          Read
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+  </a>
+</article>

@@ -1,0 +1,42 @@
+{
+  "name": "bakbakbox-server",
+  "version": "1.0.0",
+  "description": "Bak Bak Box News - Express.js API server",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "mongodb",
+    "news",
+    "api"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cheerio": "^1.0.0",
+    "cloudinary": "^2.6.1",
+    "compression": "^1.8.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.15.1",
+    "morgan": "^1.10.0",
+    "multer": "^2.0.1",
+    "rss-parser": "^3.13.0",
+    "winston": "^3.17.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

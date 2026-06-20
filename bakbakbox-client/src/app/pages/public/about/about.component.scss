@@ -1,0 +1,135 @@
+.about-section__title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.about-intro {
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+
+.about-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    background: #fff;
+    border-radius: 0.85rem;
+    border: 1px solid #e2e8f0;
+    font-weight: 500;
+    color: #334155;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &::before {
+      content: '→';
+      color: #2563eb;
+      font-weight: 700;
+    }
+
+    &:hover {
+      transform: translateX(4px);
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+    }
+  }
+}
+
+.about-sidebar {
+  position: sticky;
+  top: 5.5rem;
+}
+
+.about-facts {
+  border-radius: 1.25rem;
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.6rem 0;
+      color: #64748b;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #f1f5f9;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      span {
+        font-size: 1.1rem;
+      }
+    }
+  }
+}
+
+.about-cta {
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, #1e3a8a, #4f46e5);
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.value-card {
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 1.25rem;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  transition: transform 0.25s, box-shadow 0.25s;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.1);
+  }
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.25rem;
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    border-radius: 0.85rem;
+    margin-bottom: 0.75rem;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 0.35rem;
+  }
+
+  &__desc {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .about-sidebar {
+    position: static;
+  }
+}

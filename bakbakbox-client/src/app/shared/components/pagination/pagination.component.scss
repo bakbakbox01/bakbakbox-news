@@ -1,0 +1,19 @@
+.pagination {
+  gap: 0.25rem;
+
+  .page-link {
+    min-width: 2.25rem;
+    text-align: center;
+    padding: 0.375rem 0.65rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .pagination {
+    .page-link {
+      min-width: 2rem;
+      padding: 0.35rem 0.5rem;
+      font-size: 0.875rem;
+    }
+  }
+}

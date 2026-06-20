@@ -1,0 +1,53 @@
+<div class="public-page" @fadeInUp>
+  <app-page-hero
+    variant="search"
+    title="Search News"
+    [subtitle]="query() ? 'Find stories matching your interests' : 'Search our entire archive of news stories'"
+    icon="🔍"
+    [meta]="searchMeta()"
+  >
+    <form class="search-hero-form" (ngSubmit)="onSearch()" role="search">
+      <input
+        class="search-hero-form__input"
+        type="search"
+        placeholder="Search headlines, topics, tags..."
+        aria-label="Search"
+        [formControl]="searchControl"
+      />
+      <button class="search-hero-form__btn" type="submit">Search</button>
+    </form>
+  </app-page-hero>
+
+  <div class="public-page__body">
+    @if (loading()) {
+      <app-loading-spinner message="Searching..." />
+    } @else if (query() && !news().length) {
+      <app-empty-state
+        icon="🔍"
+        title="No results found"
+        [message]="noResultsMessage()"
+      />
+    } @else if (!query()) {
+      <app-empty-state
+        icon="🔍"
+        title="Start searching"
+        message="Enter a keyword above to search across all published news articles."
+      />
+    } @else {
+      <div class="row g-4" @listStagger>
+        @for (item of news(); track item._id) {
+          <div class="col-md-6 col-lg-4">
+            <app-news-card [article]="item" />
+          </div>
+        }
+      </div>
+
+      <app-pagination
+        [total]="total()"
+        [page]="page()"
+        [limit]="limit"
+        (pageChange)="onPageChange($event)"
+      />
+    }
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<header class="public-header sticky-top">
+  <div class="public-header__accent" aria-hidden="true"></div>
+
+  <nav class="navbar navbar-expand-lg container public-header__nav">
+    <app-brand-logo size="md" variant="dark" class="public-header__brand" />
+
+    <button
+      class="navbar-toggler public-header__toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#publicNavbar"
+      aria-controls="publicNavbar"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse public-header__collapse" id="publicNavbar">
+      <ul class="navbar-nav public-header__links mx-lg-auto">
+        @for (item of navItems(); track item.path) {
+          <li class="nav-item">
+            <a
+              class="nav-link public-header__link"
+              [routerLink]="item.path"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+            >
+              @if (item.icon) {
+                <span class="public-header__link-icon" aria-hidden="true">{{ item.icon }}</span>
+              }
+              <span class="public-header__link-label">{{ item.label }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+
+      <form class="public-header__search" (ngSubmit)="onSearch()" role="search">
+        <label class="visually-hidden" for="publicHeaderSearch">Search news</label>
+        <span class="public-header__search-icon" aria-hidden="true">🔍</span>
+        <input
+          id="publicHeaderSearch"
+          class="form-control public-header__search-input"
+          type="search"
+          placeholder="Search news..."
+          [formControl]="searchControl"
+        />
+        <button class="btn public-header__search-btn" type="submit">Go</button>
+      </form>
+    </div>
+  </nav>
+</header>

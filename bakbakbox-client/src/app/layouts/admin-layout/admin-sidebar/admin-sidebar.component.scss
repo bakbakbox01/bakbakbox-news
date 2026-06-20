@@ -1,0 +1,30 @@
+.admin-sidebar {
+  width: 260px;
+  background: #1e1e2d;
+  color: #fff;
+
+  &__brand {
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+  }
+
+  &__nav {
+    --mdc-list-list-item-label-text-color: rgba(255, 255, 255, 0.75);
+    --mdc-list-list-item-hover-label-text-color: #fff;
+    --mdc-list-list-item-focus-label-text-color: #fff;
+  }
+
+  a[mat-list-item] {
+    border-radius: 0 24px 24px 0;
+    margin-right: 12px;
+  }
+
+  &__link--active {
+    background: rgba(63, 81, 181, 0.2) !important;
+    color: #fff !important;
+  }
+
+  mat-icon {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}

@@ -1,0 +1,127 @@
+@if (loading()) {
+  <div class="public-page">
+    <app-loading-spinner message="Loading article..." />
+  </div>
+} @else if (article(); as item) {
+  <div class="public-page" @fadeInUp>
+    <app-page-hero
+      variant="article"
+      [title]="item.title"
+      [subtitle]="item.shortDescription || ''"
+      [badge]="item.isBreaking ? 'BREAKING' : categoryName(item)"
+      [badgePulse]="item.isBreaking"
+      [meta]="articleMeta(item)"
+    >
+      @if (categoryName(item)) {
+        <a
+          [routerLink]="['/category', categorySlug(item)]"
+          class="article-hero-link"
+        >
+          {{ categoryName(item) }} →
+        </a>
+      }
+    </app-page-hero>
+
+    <article class="public-page__body news-detail">
+      <div class="row g-4 g-xl-5">
+        <div class="col-lg-8">
+          <div class="news-detail__meta-bar" @fadeInUp>
+            <span>{{ item.publishedAt | date: 'longDate' }}</span>
+            @if (displayTags(item).length) {
+              <span class="news-detail__tags-inline">
+                @for (tag of displayTags(item).slice(0, 3); track tag) {
+                  <a [routerLink]="['/search']" [queryParams]="{ q: tag }" class="news-detail__tag">#{{ tag }}</a>
+                }
+              </span>
+            }
+          </div>
+
+          <figure class="news-detail__figure" @fadeInUp>
+            <img
+              [src]="imageUrl(item)"
+              [srcset]="imageSrcSet(item)"
+              sizes="(max-width: 991px) 100vw, 720px"
+              [alt]="item.title"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              class="news-detail__image"
+              (error)="onImageError()"
+            />
+          </figure>
+
+          <div class="news-detail__content card border-0 shadow-sm" @fadeInUp>
+            <div class="card-body p-4 p-md-5">
+              @if (!hasRichContent(item)) {
+                <p class="news-detail__preview-note">{{ minimalContentMessage(item) }}</p>
+              }
+              <div class="news-detail__article" [innerHTML]="item.content | safeHtml"></div>
+            </div>
+          </div>
+
+          @if (sourceUrl(item); as url) {
+            <div class="news-detail__source-cta" @fadeInUp>
+              <a [href]="url" target="_blank" rel="noopener noreferrer" class="news-detail__source-btn">
+                Read full story on {{ sourceLabel(item) }}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          }
+
+          @if (displayTags(item).length) {
+            <div class="news-detail__tags-footer mt-4" @fadeInUp>
+              @for (tag of displayTags(item); track tag) {
+                <a [routerLink]="['/search']" [queryParams]="{ q: tag }" class="news-detail__tag-pill">
+                  #{{ tag }}
+                </a>
+              }
+            </div>
+          }
+        </div>
+
+        <aside class="col-lg-4">
+          @if (popular().length) {
+            <div class="sidebar popular-panel" @fadeInUp>
+              <div class="popular-panel__header">
+                <span>🔥</span>
+                <h2>Popular Now</h2>
+              </div>
+              <ol class="popular-list">
+                @for (pop of popular(); track pop._id; let i = $index) {
+                  <li class="popular-list__item">
+                    <span class="popular-list__rank" [class.popular-list__rank--top]="i < 3">{{ i + 1 }}</span>
+                    <a [routerLink]="['/news', pop.slug]" class="popular-list__link">{{ pop.title }}</a>
+                  </li>
+                }
+              </ol>
+              <a routerLink="/trending" class="popular-panel__cta">All trending →</a>
+            </div>
+          }
+        </aside>
+      </div>
+
+      @if (related().length) {
+        <section class="related-news" @fadeInUp>
+          <h2 class="related-news__title">Related Stories</h2>
+          <div class="row g-4" @listStagger>
+            @for (rel of related(); track rel._id) {
+              <div class="col-md-4">
+                <app-news-card [article]="rel" />
+              </div>
+            }
+          </div>
+        </section>
+      }
+    </article>
+  </div>
+} @else {
+  <div class="public-page" @fadeInUp>
+    <app-empty-state
+      icon="📰"
+      title="Article not found"
+      message="This story may have been removed or the link is incorrect."
+    />
+  </div>
+}

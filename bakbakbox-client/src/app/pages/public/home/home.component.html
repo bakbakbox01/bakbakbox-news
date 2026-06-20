@@ -1,0 +1,371 @@
+@if (loading()) {
+  <div class="home-loading">
+    <app-loading-spinner message="Loading today's headlines..." />
+  </div>
+} @else {
+  <div class="home">
+    <!-- Hero -->
+    <section class="home-hero">
+      <div class="home-hero__bg" aria-hidden="true">
+        <div class="home-hero__orb home-hero__orb--1"></div>
+        <div class="home-hero__orb home-hero__orb--2"></div>
+        <div class="home-hero__orb home-hero__orb--3"></div>
+        <div class="home-hero__aurora"></div>
+        <div class="home-hero__grid"></div>
+        <div class="home-hero__shine"></div>
+        <div class="home-hero__particles">
+          @for (p of heroParticles; track p) {
+            <span class="home-hero__particle" [style.--i]="p"></span>
+          }
+        </div>
+      </div>
+
+      <div class="home-hero__inner">
+        <div class="home-hero__brand">
+          <div class="home-hero__brand-glow"></div>
+          <app-brand-logo size="lg" variant="light" [showTagline]="true" [link]="false" />
+        </div>
+
+        <p class="home-hero__headline">
+          <span class="home-hero__headline-line home-hero__headline-line--1">
+            <span class="home-hero__headline-accent">Breaking stories.</span>
+          </span>
+          <span class="home-hero__headline-line home-hero__headline-line--2">
+            Deep dives. The news you can't stop talking about.
+          </span>
+        </p>
+
+        <div class="home-hero__actions">
+          <a routerLink="/breaking" class="home-hero__btn home-hero__btn--primary">
+            <span class="home-hero__btn-dot"></span>
+            <span class="home-hero__btn-text">Live Breaking News</span>
+            <span class="home-hero__btn-shine" aria-hidden="true"></span>
+          </a>
+          <a routerLink="/news" class="home-hero__btn home-hero__btn--ghost">
+            <span class="home-hero__btn-text">Browse Latest</span>
+          </a>
+        </div>
+
+        <div class="home-hero__stats">
+          <div class="home-hero__stat home-hero__stat--1">
+            <strong>{{ displayLatestCount() }}+</strong>
+            <span>Fresh stories</span>
+          </div>
+          <div class="home-hero__stat home-hero__stat--2">
+            <strong>{{ displayBreakingCount() }}</strong>
+            <span>Breaking now</span>
+          </div>
+          <div class="home-hero__stat home-hero__stat--3">
+            <strong>{{ displayCategoriesCount() }}</strong>
+            <span>Topics covered</span>
+          </div>
+        </div>
+
+        <div class="home-hero__scroll-hint" aria-hidden="true">
+          <span>Scroll to explore</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live ticker -->
+    @if (breaking().length) {
+      <div class="home-ticker" aria-label="Breaking news ticker">
+        <div class="home-ticker__label">
+          <span class="home-ticker__label-row">
+            <span class="home-ticker__live" aria-hidden="true"></span>
+            <span class="home-ticker__label-text">LIVE</span>
+          </span>
+          <span class="home-ticker__label-sub">Breaking</span>
+        </div>
+
+        <div class="home-ticker__track-wrap">
+          <div class="home-ticker__fade home-ticker__fade--left" aria-hidden="true"></div>
+          <div class="home-ticker__track">
+            <div class="home-ticker__content">
+              @for (item of breaking(); track item._id) {
+                <a [routerLink]="['/news', item.slug]" class="home-ticker__item">
+                  <span class="home-ticker__bullet" aria-hidden="true">⚡</span>
+                  <span class="home-ticker__headline">{{ item.title }}</span>
+                </a>
+                <span class="home-ticker__sep" aria-hidden="true"></span>
+              }
+              @for (item of breaking(); track item._id + '-dup') {
+                <a [routerLink]="['/news', item.slug]" class="home-ticker__item">
+                  <span class="home-ticker__bullet" aria-hidden="true">⚡</span>
+                  <span class="home-ticker__headline">{{ item.title }}</span>
+                </a>
+                <span class="home-ticker__sep" aria-hidden="true"></span>
+              }
+            </div>
+          </div>
+          <div class="home-ticker__fade home-ticker__fade--right" aria-hidden="true"></div>
+        </div>
+      </div>
+    }
+
+    <div class="home-body">
+      <!-- Breaking spotlight -->
+      @if (breaking().length) {
+        <section class="home-section home-breaking" @fadeInUp>
+          <div class="home-section__header">
+            <div>
+              <span class="home-section__eyebrow home-section__eyebrow--danger">⚡ Breaking</span>
+              <h2 class="home-section__title">Top Stories Right Now</h2>
+            </div>
+            <a routerLink="/breaking" class="home-section__link">
+              View all breaking
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+
+          <div class="row g-4 align-items-stretch">
+            @if (breaking()[0]; as lead) {
+              <div class="col-lg-7">
+                <app-news-card [article]="lead" [featured]="true" />
+              </div>
+            }
+            <div class="col-lg-5 d-flex flex-column gap-3">
+              @for (item of breaking().slice(1); track item._id) {
+                <app-news-card [article]="item" [horizontal]="true" />
+              }
+            </div>
+          </div>
+        </section>
+      }
+
+      <!-- Explore categories -->
+      @if (categories().length) {
+        <section class="home-section home-categories" @fadeInUp>
+          <div class="home-section__header">
+            <div>
+              <span class="home-section__eyebrow">Explore</span>
+              <h2 class="home-section__title">Pick Your Interest</h2>
+            </div>
+            <a routerLink="/categories" class="home-section__link">
+              All categories
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+
+          <div class="home-categories__grid" @listStagger>
+            @for (cat of categories(); track cat._id; let i = $index) {
+              <a
+                [routerLink]="['/category', cat.slug]"
+                class="home-category-pill"
+                [style.--pill-accent]="categoryAccent(i)"
+              >
+                <span class="home-category-pill__icon">{{ categoryIcon(i) }}</span>
+                <span class="home-category-pill__name">{{ cat.name }}</span>
+                <span class="home-category-pill__arrow">→</span>
+              </a>
+            }
+          </div>
+        </section>
+      }
+
+      <!-- Latest + Trending showcase -->
+      <section class="home-showcase" @fadeInUp>
+        <div class="home-showcase__glow" aria-hidden="true"></div>
+
+        <div class="home-showcase__shell">
+          <div class="home-showcase__toolbar">
+            <div class="home-showcase__toolbar-left">
+              <span class="home-showcase__live-tag">
+                <span class="home-showcase__live-dot"></span>
+                Live Feed
+              </span>
+              <h2 class="home-showcase__heading">
+                {{ usingBreakingFallback() ? 'Top' : 'Latest' }}
+                <span class="home-showcase__heading-accent">Stories</span>
+              </h2>
+              <p class="home-showcase__tagline">Curated for readers who never miss a headline</p>
+            </div>
+            <div class="home-showcase__toolbar-actions">
+              <a routerLink="/trending" class="home-showcase__chip home-showcase__chip--hot">🔥 Trending</a>
+              <a routerLink="/news" class="home-showcase__view-all">
+                View all
+                <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="home-showcase__grid">
+            <div class="home-showcase__latest">
+              @if (displayLatest().length) {
+                <div class="home-bento" @listStagger>
+                  @for (item of displayLatest(); track item._id; let i = $index) {
+                    <article
+                      class="home-bento__cell"
+                      [class.home-bento__cell--hero]="i === 0"
+                      [style.--cell-delay]="i * 90 + 'ms'"
+                    >
+                      <app-news-card [article]="item" [featured]="i === 0" />
+                    </article>
+                  }
+                </div>
+              } @else {
+                <div class="home-discovery" @scaleIn>
+                  <div class="home-discovery__banner">
+                    <span class="home-discovery__spark">✨</span>
+                    <h3>Your news journey starts here</h3>
+                    <p>Explore breaking updates, trending debates, and stories worth your time.</p>
+                  </div>
+                  <div class="home-discovery__grid">
+                    @for (link of exploreLinks; track link.route; let i = $index) {
+                      <a
+                        [routerLink]="link.route"
+                        class="home-discovery__card"
+                        [style.--card-accent]="link.accent"
+                        [style.animation-delay.ms]="i * 100"
+                      >
+                        <span class="home-discovery__card-icon">{{ link.icon }}</span>
+                        <strong>{{ link.label }}</strong>
+                        <span>{{ link.desc }}</span>
+                        <em>Explore →</em>
+                      </a>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+
+            <aside class="home-showcase__trending" @slideInRight>
+              <div class="home-trending-panel">
+                <div class="home-trending-panel__head">
+                  <div class="home-trending-panel__orbs" aria-hidden="true">
+                    <span></span><span></span>
+                  </div>
+                  <div class="home-trending-panel__head-row">
+                    <span class="home-trending-panel__fire">🔥</span>
+                    <span class="home-trending-panel__badge">
+                      <span class="home-trending-panel__badge-dot"></span>
+                      {{ usingTrendingFallback() ? 'Popular' : 'Hot Now' }}
+                    </span>
+                  </div>
+                  <h3 class="home-trending-panel__title">Trending Stories</h3>
+                  <p class="home-trending-panel__subtitle">Readers are talking about these right now</p>
+                </div>
+
+                <div class="home-trending-panel__body">
+                  @if (displayTrending().length) {
+                    <ol class="home-trending-panel__list">
+                      @for (item of displayTrending(); track item._id; let i = $index) {
+                        <li
+                          class="home-trending-panel__item"
+                          [style.animation-delay.ms]="i * 80"
+                        >
+                          <span
+                            class="home-trending-panel__rank"
+                            [class.home-trending-panel__rank--top]="i < 3"
+                          >
+                            {{ i + 1 }}
+                          </span>
+                          <div class="home-trending-panel__content">
+                            <a [routerLink]="['/news', item.slug]" class="home-trending-panel__link text-clamp-2">
+                              {{ item.title }}
+                            </a>
+                            <div class="home-trending-panel__meta">
+                              <div class="home-trending-panel__bar">
+                                <span
+                                  class="home-trending-panel__bar-fill"
+                                  [style.width.%]="trendingBarWidth(item.views, i)"
+                                ></span>
+                              </div>
+                              <span
+                                class="home-trending-panel__views"
+                                [class.home-trending-panel__views--hot]="item.views >= 200"
+                              >
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                  <path
+                                    d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"
+                                    stroke="currentColor"
+                                    stroke-width="1.75"
+                                  />
+                                  <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.75"/>
+                                </svg>
+                                <strong>{{ item.views | number }}</strong>
+                                <span>views</span>
+                              </span>
+                            </div>
+                          </div>
+                        </li>
+                      }
+                    </ol>
+                  } @else {
+                    <div class="home-trending-panel__explore">
+                      @for (link of exploreLinks.slice(0, 3); track link.route; let i = $index) {
+                        <a
+                          [routerLink]="link.route"
+                          class="home-trending-panel__explore-link"
+                          [style.animation-delay.ms]="i * 120"
+                        >
+                          <span>{{ link.icon }}</span>
+                          {{ link.label }}
+                        </a>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <a routerLink="/trending" class="home-trending-panel__cta">
+                  <span>Dive into trending</span>
+                  <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+              </div>
+            </aside>
+          </div>
+
+          <div class="home-showcase__trust" @listStagger>
+            <div class="home-showcase__trust-shimmer" aria-hidden="true"></div>
+            @for (item of trustItems; track item.title; let i = $index) {
+              <article
+                class="home-showcase__trust-card"
+                [style.--trust-accent]="item.accent"
+                [style.animation-delay.ms]="i * 120"
+              >
+                <div class="home-showcase__trust-card-accent" aria-hidden="true"></div>
+                <div class="home-showcase__trust-icon-wrap">
+                  <span class="home-showcase__trust-ring"></span>
+                  <span class="home-showcase__trust-icon">{{ item.icon }}</span>
+                </div>
+                <div class="home-showcase__trust-body">
+                  <span class="home-showcase__trust-badge">{{ item.stat }}</span>
+                  <strong>{{ item.title }}</strong>
+                  <p>{{ item.desc }}</p>
+                </div>
+              </article>
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="home-cta" @fadeIn>
+        <div class="home-cta__content">
+          <h2 class="home-cta__title">Don't miss the next big story</h2>
+          <p class="home-cta__text">
+            Dive into trending topics, explore categories, and stay ahead of the headlines with Bak Bak Box News.
+          </p>
+          <div class="home-cta__actions">
+            <a routerLink="/trending" class="home-cta__btn home-cta__btn--primary">Explore Trending</a>
+            <a routerLink="/categories" class="home-cta__btn home-cta__btn--outline">Browse Categories</a>
+          </div>
+        </div>
+        <div class="home-cta__visual" aria-hidden="true">
+          <app-brand-logo size="md" variant="light" [link]="false" />
+        </div>
+      </section>
+    </div>
+  </div>
+}

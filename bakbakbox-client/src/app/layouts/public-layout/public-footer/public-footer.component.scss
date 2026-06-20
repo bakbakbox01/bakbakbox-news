@@ -1,0 +1,22 @@
+.public-footer {
+  .footer-link {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  .container {
+    padding-top: clamp(2rem, 5vw, 3rem);
+    padding-bottom: clamp(2rem, 5vw, 3rem);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .public-footer ul {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+}
